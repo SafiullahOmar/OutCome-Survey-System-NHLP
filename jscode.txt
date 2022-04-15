@@ -1,0 +1,244 @@
+function SaveForm(province, gender, hasOrchard) {
+    //preliinary information
+   
+
+    var formDetail = {};
+    formDetail.NameOfInterviewee = $('#txtNameOFInterviewee').val();
+    formDetail.Year = $('#ddlYear').val();
+    formDetail.SampleGroupType = $("input:radio[name=rdFormType]:checked").val();
+    formDetail.NameOfVillage = $('#txtNameOfVillage').val();
+    formDetail.District = $('#ddlDistrict').val();
+    formDetail.Province = province;
+    formDetail.InterviewDate = $('#txtInterviewDate').val();
+    formDetail.StartTime = $("#txtStartTime").val();
+    formDetail.EndTime = $('#txtEndTime').val();
+    formDetail.Interviewer = $('#txtInterviewer').val();
+    
+    //Family Composition
+
+    var FamilyComp = {};
+    FamilyComp.NameOfFamilyHead = $("#txtNameOfFamilyHead").val();
+    FamilyComp.FName = $('#txtFName').val();
+    FamilyComp.Gender = gender;
+    FamilyComp.TotalFamilyMembers = $('#txtFamilyMembers').val();
+    FamilyComp.MaleFamilyMembers = $('#txtMaleMembers').val();
+    FamilyComp.FemaleFamilyMembers = $('#txtFemaleMembers').val();
+
+    //Genreal information
+
+    var gInfo = {};
+    gInfo.TotalFarmArea = $('#txtTotalFarmArea').val();
+    gInfo.Irrigated = $('#txtIrrigated').val();
+    gInfo.Rainfed = $('#txtRainfed').val();
+    gInfo.HasOrchard = hasOrchard;
+    gInfo.OrchardArea = $('#txtOrchardArea').val();
+   
+    //KG Production and Product Uses
+    var KGL = {};
+    var KG = new Array();
+    $('#tblKGProductUses tbody tr').each(function () {
+        var detail = {};
+        detail.SeedPlanted = $(this).find("input[id^='txtSeedPlanted']").val();
+        detail.PlantedArea = $(this).find("input[id^='txtPlantedArea']").val();
+        detail.YieldHarvest = $(this).find("input[id^='txtYieldHarvest']").val();
+        detail.KGSold = $(this).find("input[id^='txtKGSold']").val();
+        detail.SellingPrice = $(this).find("input[id^='txtPrice']").val();
+        var tr = $(this).closest('tr');
+        var cropId = $(tr).find('span:eq(0)');
+        detail.CropsID = $(cropId).html();
+        KG.push(detail);
+    });
+    KGL = KG;
+
+    //Extension Suppport in Village
+
+    var ExtSupInVilage = {};
+    ExtSupInVilage.IsExtAssignedToV = $("input:radio[name=rdFourHASExtensionSInVillage]:checked").val();
+    ExtSupInVilage.NameOfNHLPExtStaff = $('#txtFourNameOFNHLPExtStaff').val();
+    ExtSupInVilage.FreqOfExtVisit = $("input:radio[name=rdFourFreqOFExtension]:checked").val();
+    ExtSupInVilage.IsLeadFarmAssigned = $("input:radio[name=rdFourHASLeadFarmerInVillage]:checked").val();
+    ExtSupInVilage.NameOfNHLPLeadFarmer = $('#txtFourNameOfLeadFarmer').val();
+    ExtSupInVilage.FreqOfLeadFarmVisits = $("input:radio[name=rdFourFreqOFLeadFarmer]:checked").val();
+
+    //FFS Extension Training Program
+
+ 
+    var FFSTrainingProg = {};
+    FFSTrainingProg.HasParticipated = $("input:radio[name=rdFiveFamilyPartInTrainingProg]:checked").val();
+    FFSTrainingProg.ParticipatedMember = $("input:radio[name=rdFiveTrainingMember]:checked").val();
+ 
+    var FFSTL = {};
+    var FFST = new Array();
+    $('#tblFFSExtTrainingProgram tbody tr').each(function () {
+        var detail = {};
+        detail.NameOfTrainingEvent = $(this).find("input[id^='txtFiveTrainingEvent']").val();
+        detail.KeyLearning = $(this).find("input[id^='txtFiveKeyLearnings']").val();
+        detail.TrainingResult = $(this).find("input:radio[name^=rdFiveTrainingResult]:checked").val();
+        var tr = $(this).closest('tr');
+        var Training = $(tr).find('span:eq(0)');
+        detail.TrainingID = $(Training).html();
+        FFST.push(detail);
+      
+    });
+    FFSTL = FFST;
+    FFSTrainingProg.TrainingDetail = FFSTL;
+   
+
+
+    //Participatation in NHLP Producer Group
+
+    var ProducerGroup = {};
+    ProducerGroup.IsMemberOfPrdGroup = $("input:radio[name^=rdSixISMembrOfProdGroup]:checked").val();
+    ProducerGroup.JoinYear = $('#ddlSixJoinYear').val();
+    if ($("input:checkbox[name=chkSixSolvPurpose1]").is("checked")) { ProducerGroup.SolvPurpose1 = $("input:checkbox[name=chkSixSolvPurpose1]").val(); } else { ProducerGroup.SolvPurpose1 = "False"; }
+    if ($("input:checkbox[name=chkSixIncPurpose2]").is("checked")) { ProducerGroup.IncPurpose2 = $("input:checkbox[name=chkSixIncPurpose2]").val(); } else { ProducerGroup.IncPurpose2 = "False"; }
+    if ($("input:checkbox[name=chkSixLearnPurpose3]").is("checked")) { ProducerGroup.LearnPurpose3 = $("input:checkbox[name=chkSixLearnPurpose3]").val(); } else { ProducerGroup.LearnPurpose3 = "False"; }
+    if ($("input:checkbox[name=chkSixGetPurpose4]").is("checked")) { ProducerGroup.GetPurpose4 = $("input:checkbox[name=chkSixGetPurpose4]").val(); } else { ProducerGroup.GetPurpose4 = "False"; }
+   
+
+    //Adoption of Improved Kitchen Gardening Practice
+
+    var AdoptionOfKGP = {};
+    var ImprovedKGP = new Array();
+    var ImprovedMP = new Array();
+    $('#tblImprovedKitchenGP tbody tr').each(function () {
+        var detail = {};
+        if ($("input:radio[name^=rdSevenRecieved]").is("checked")) { detail.Recieved = $("input:radio[name^=rdSevenRecieved]:checked").val(); } else { detail.Recieved = "False"; }
+        if ($("input:radio[name^=rdSevenUnderstood]").is("checked")) { detail.Understood = $("input:radio[name^=rdSevenUnderstood]:checked").val(); } else { detail.Understood = "False"; }
+        if ($("input:radio[name^=rdSevenApplication]").is("checked")) { detail.Application = $("input:radio[name^=rdSevenApplication]:checked").val(); } else { detail.Application = "5"; }
+        if ($("input:radio[name^=rdSevenUsefullness]").is("checked")) { detail.Usefullness = $("input:radio[name^=rdSevenUsefullness]:checked").val(); } else { detail.Usefullness = "4"; }
+
+        var tr = $(this).closest('tr');
+        var Practices = $(tr).find('span:eq(0)');
+        detail.PracticesID = $(Practices).html();
+        ImprovedKGP.push(detail);
+    });
+    $('#tblAdoptionOfImprovedMark tbody tr').each(function () {
+        var detail = {};
+        if ($("input:radio[name^=rdSevenRecievedM]").is("checked")) { detail.Recieved = $("input:radio[name^=rdSevenRecievedM]:checked").val(); } else { detail.Recieved = "False"; }
+        if ($("input:radio[name^=rdSevenUnderstoodM]").is("checked")) { detail.Understood = $("input:radio[name^=rdSevenUnderstoodM]:checked").val(); } else { detail.Understood = "False"; }
+        if ($("input:radio[name^=rdSevenApplicationM]").is("checked")) { detail.Application = $("input:radio[name^=rdSevenApplicationM]:checked").val(); } else { detail.Application = "5"; }
+        if ($("input:radio[name^=rdSevenUsefullnessM]").is("checked")) { detail.Usefullness = $("input:radio[name^=rdSevenUsefullnessM]:checked").val(); } else { detail.Usefullness = "4"; }
+
+        var tr = $(this).closest('tr');
+        var Practices = $(tr).find('span:eq(0)');
+        detail.PracticesID = $(Practices).html();
+        ImprovedMP.push(detail);
+    });
+    AdoptionOfKGP.ImprovedKGPList = ImprovedKGP;
+    AdoptionOfKGP.ImprovedMPList = ImprovedMP;
+
+    //HouseHold Accessibilty to Marketing Srevice
+
+    var HouseHoldAToMarkS = {};
+    if ($("input:checkbox[name^=chkEightProdGroupFV]").is("checked")) { HouseHoldAToMarkS.FreshProducerGroup = $("input:checkbox[name^=chkEightProdGroupFV]:checked").val(); } else { HouseHoldAToMarkS.FreshProducerGroup = "False"; }
+    if ($("input:checkbox[name^=chkEightOtherProjFV]").is("checked")) { HouseHoldAToMarkS.FreshOtherProject = $("input:checkbox[name^=chkEightOtherProjFV]:checked").val(); } else { HouseHoldAToMarkS.FreshOtherProject = "False"; }
+    if ($("input:checkbox[name^=chkEightInputMyOwnFV]").is("checked")) { HouseHoldAToMarkS.FreshMyOwn = $("input:checkbox[name^=chkEightInputMyOwnFV]:checked").val(); } else { HouseHoldAToMarkS.FreshMyOwn = "False"; }
+
+    if ($("input:checkbox[name^=chkEightProdGroupDV]").is("checked")) { HouseHoldAToMarkS.DryProducerGroup = $("input:checkbox[name^=chkEightProdGroupDV]:checked").val(); } else { HouseHoldAToMarkS.DryProducerGroup = "False"; }
+    if ($("input:checkbox[name^=chkEightOtherProjDV]").is("checked")) { HouseHoldAToMarkS.DryOtherProject = $("input:checkbox[name^=chkEightOtherProjDV]:checked").val(); } else { HouseHoldAToMarkS.DryOtherProject = "False"; }
+    if ($("input:checkbox[name^=chkEightInputMyOwnDV]").is("checked")) { HouseHoldAToMarkS.DryMyOwn = $("input:checkbox[name^=chkEightInputMyOwnDV]:checked").val(); } else { HouseHoldAToMarkS.FreshMyOwn = "False"; }
+
+    if ($("input:radio[name^=rdEightWaterIrrigation]").is("checked")) { HouseHoldAToMarkS.WaterIrrigation = $("input:radio[name^=rdEightWaterIrrigation]:checked").val(); } else { HouseHoldAToMarkS.WaterIrrigation = "4"; }
+    if ($("input:radio[name^=rdEightWaterAccessibility]").is("checked")) { HouseHoldAToMarkS.WaterAccessibility = $("input:radio[name^=rdEightWaterAccessibility]:checked").val(); } else { HouseHoldAToMarkS.WaterAccessibility = "4"; }
+
+    //Pest Problem
+
+    var PestProbList = {};
+    var PestProb = new Array();
+    $('#tblKGProductUses tbody tr').each(function () {
+        var detail = {};
+        if ($("input:radio[name^=radioChangeInProblem]").is("checked")) { detail.ChangeInProb = $("input:radio[name^=radioChangeInProblem]:checked").val(); } else { detail.ChangeInProb = "4"; }
+        detail.localName = $(this).find("input[id^='txtLocalName']").val();
+
+        var tr = $(this).closest('tr');
+        var cropId = $(tr).find('span:eq(0)');
+        detail.CropsID = $(cropId).html();
+        PestProb.push(detail);
+    });
+    PestProbList = PestProb;
+
+    //Self Sustained Kitchen GP after NHLP
+
+    var SelfSustainedKG = {};
+    SelfSustainedKG.HasContinued = $("input:radio[name^=rdTenContinuKG]:checked").val();
+    SelfSustainedKG.Reason = $('#txtTenContinuKGReason').val();
+    if ($("input:checkbox[name^=chkTenContinuKGW1]").is("checked")) { SelfSustainedKG.WayPurchased = $("input:checkbox[name^=chkTenContinuKGW1]:checked").val(); } else { SelfSustainedKG.WayPurchased = "False"; }
+    if ($("input:checkbox[name^=chkTenContinuKGW2]").is("checked")) { SelfSustainedKG.WayPrdByself = $("input:checkbox[name^=chkTenContinuKGW2]:checked").val(); } else { SelfSustainedKG.WayPrdByself = "False"; }
+    if ($("input:checkbox[name^=chkTenContinuKGW3]").is("checked")) { SelfSustainedKG.WayByProj = $("input:checkbox[name^=chkTenContinuKGW3]:checked").val(); } else { SelfSustainedKG.WayByProj = "False"; }
+    if ($("input:checkbox[name^=chkTenContinuKGW4]").is("checked")) { SelfSustainedKG.WayNHLP = $("input:checkbox[name^=chkTenContinuKGW4]:checked").val(); } else { SelfSustainedKG.WayNHLP = "False"; }
+    SelfSustainedKG.OtherMethod = $('#txtTenContinuKGMethod').val();
+
+    var SelfSustainedGH = {};
+    SelfSustainedGH.HasContinued = $("input:radio[name^=rdTenContinuMGH]:checked").val();
+    SelfSustainedGH.Reason = $('#txtTenContinuMGHReason').val();
+    if ($("input:checkbox[name^=chkTenContinuMGH1]").is("checked")) { SelfSustainedGH.WayPurchased = $("input:checkbox[name^=chkTenContinuMGH1]:checked").val(); } else { SelfSustainedGH.WayPurchased = "False"; }
+    if ($("input:checkbox[name^=chkTenContinuMGH2]").is("checked")) { SelfSustainedGH.WayPrdByself = $("input:checkbox[name^=chkTenContinuMGH2]:checked").val(); } else { SelfSustainedGH.WayPrdByself = "False"; }
+    if ($("input:checkbox[name^=chkTenContinuMGH3]").is("checked")) { SelfSustainedGH.WayByProj = $("input:checkbox[name^=chkTenContinuMGH3]:checked").val(); } else { SelfSustainedGH.WayByProj = "False"; }
+    if ($("input:checkbox[name^=chkTenContinuMGH4]").is("checked")) { SelfSustainedGH.WayNHLP = $("input:checkbox[name^=chkTenContinuMGH4]:checked").val(); } else { SelfSustainedGH.WayNHLP = "False"; }
+    SelfSustainedGH.OtherMethod = $('#txtTenContinuMGHMethod').val();
+    
+
+    //NHLP Development Services
+
+    var NHLPDService = {};
+    var DvServiceList = new Array(); var humanAccident = new Array(); var AnimalAccident = new Array();
+    $('#tblElevenDVServices tbody tr').each(function () {
+        var detail = {};
+        if ($("input:radio[name^=rdElevenRecieved]").is("checked")) { detail.Recieved = $("input:radio[name^=rdElevenRecieved]:checked").val(); } else { detail.Recieved = "False"; }
+        if ($("input:radio[name^=rdElevenSatisfication]").is("checked")) { detail.Satisfication = $("input:radio[name^=rdElevenSatisfication]:checked").val(); } else { detail.Satisfication = "False"; }
+        
+        var tr = $(this).closest('tr');
+        var Services = $(tr).find('span:eq(0)');
+        detail.ServiceID = $(Services).html();
+        DvServiceList.push(detail);
+    });
+    $('#tblElevenHAccident tbody tr').each(function () {
+        var detail = {};
+        detail.Discription = $("input:text[id^=txtElevenDescription]").val();
+        detail.Injured = $("input:text[id^=txtElevenInjured]").val();
+        detail.Sick = $("input:text[id^=txtElevenSick]").val();
+        detail.Death = $("input:text[id^=txtElevenDeath]").val();
+        var tr = $(this).closest('tr');
+        var Gender = $(tr).find('span:eq(0)');
+        detail.GenderID = $(Gender).html();
+        humanAccident.push(detail);
+    });
+    $('#tblElevenLAccident tbody tr').each(function () {
+        var detail = {};
+        detail.Discription = $("input:text[id^=txtElevenDescription]").val();
+        detail.Injured = $("input:text[id^=txtElevenInjured]").val();
+        detail.Sick = $("input:text[id^=txtElevenSick]").val();
+        detail.Death = $("input:text[id^=txtElevenDeath]").val();
+        var tr = $(this).closest('tr');
+        var Animal = $(tr).find('span:eq(0)');
+        detail.AnimalID = $(Animal).html();
+        AnimalAccident.push(detail);
+    });
+
+    NHLPDService.PestPlace = $('#txtElevenPestPlace').val();
+    if ($("input:radio[name^=rdElevenPestContainer]").is("checked")) { NHLPDService.PestContainer = $("input:radio[name^=rdElevenPestContainer]:checked").val(); } else { NHLPDService.PestContainer = "5"; }
+    NHLPDService.DVService = DvServiceList;
+    NHLPDService.HumanAccident = humanAccident;
+    NHLPDService.LiveStockAccident = AnimalAccident;
+
+
+    var jsonObject = JSON.stringify({ formDetail: formDetail, FamilyComp: FamilyComp, gInfo: gInfo, KGL: KG, ExtSupInVilage: ExtSupInVilage, FFSTrainingProg: FFSTrainingProg, ProducerGroup: ProducerGroup, AdoptionOfKGP: AdoptionOfKGP, HouseHoldAToMarkS: HouseHoldAToMarkS, PestProbList: PestProbList, SelfSustainedGH: SelfSustainedGH, SelfSustainedKG: SelfSustainedKG });
+
+    $.ajax({
+        type: "POST",
+        url: "FemaleHorticulture.aspx/SaveFormDetail",
+        data:jsonObject,
+        dataType: "json",
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+           
+
+        },
+        error: function (data) {
+            alert("error found");
+        }
+
+    });
+}

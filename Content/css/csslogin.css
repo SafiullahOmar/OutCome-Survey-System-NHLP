@@ -1,0 +1,28 @@
+﻿body {
+    background-color: rgba(255, 255, 255, 0) !important;
+    background-image: url('../../images/23.jpg') !important;
+    background-color: #f6f6f6 !important;
+}
+.loginbox {
+     background: none repeat scroll 0 0 #ffffff;
+    border-radius: 5px;
+    box-shadow: -30px 30px 50px rgba(0, 0, 0, 0.32);
+    overflow: hidden;
+    padding: 10px;
+    
+    width:400px;
+    height:350px;
+    margin:0 auto;
+    margin-top:40px;
+}
+ .logo {
+    padding-top: 20px;
+    text-align: center;
+    display:block;
+}
+ .copyright {
+    font-size: 11px;
+    margin: 0 auto;
+    padding: 10px 10px 0;
+    text-align: center;
+}
